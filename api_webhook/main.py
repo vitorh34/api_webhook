@@ -45,8 +45,6 @@ async def read_items(user_agent: Optional[str] = Header(None)):
 
 @app.post("/mqttbroker/on_publish")
 async def print_content(request: Request):
-    # print(item)
-    # print()
     # print(request.base_url)
     # print()
     # print(request.headers['content-type'])
@@ -54,7 +52,9 @@ async def print_content(request: Request):
     body = b''
     async for chunk in request.stream():
         body += chunk
-        print(body)
-    print()
-    # # print(dir(request))
+
+    result = json.loads(body.decode())
+    result['payload'] = base64.b64decode(result['payload']).decode()
+    print(result)
+
     return json.dumps({'result': 'ok'})
