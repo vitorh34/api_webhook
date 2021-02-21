@@ -45,20 +45,16 @@ async def read_items(user_agent: Optional[str] = Header(None)):
 
 @app.post("/mqttbroker/on_publish")
 async def print_content(request: Request):
-    da = await request.form()
-    da = jsonable_encoder(da)
-    print(da)
-
     # print(item)
     # print()
     # print(request.base_url)
     # print()
     # print(request.headers['content-type'])
     # print()
-    # body = b''
-    # async for chunk in request.stream():
-    #     body += chunk
-    #     print(body)
-    # print()
+    body = b''
+    async for chunk in request.stream():
+        body += chunk
+        print(body)
+    print()
     # # print(dir(request))
     return json.dumps({'result': 'ok'})
