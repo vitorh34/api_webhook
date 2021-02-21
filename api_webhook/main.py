@@ -2,6 +2,7 @@ from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 import json
+import base64
 
 app = FastAPI()
 
@@ -39,5 +40,5 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 @app.post("/mqttbroker/on_publish")
 def print_content(item: Item):
-    print(item)
+    print(base64.b64decode(item))
     return json.dumps({'result': 'ok'})
